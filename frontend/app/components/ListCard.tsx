@@ -78,20 +78,20 @@ export default function ListCard() {
               <EmptyPage item="Book" image="/no-results.png" size={300} />
             </div>
           ) : (
-            <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 gap-y-7 mt-10 px-4">
+            <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 gap-y-7 mt-10 px-4">
               {boxesData.map((item, index) => (
                 <Link key={index} href={`/list-stuff/${item.id}`}>
-                  <div className="card border-zinc-400 border rounded-xl shadow-2xl min-h-full w-fit">
+                  <div className="card border-zinc-400 border rounded-lg shadow-2xl min-h-full w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
                     <div className="card-body">
-                      <div className="w-fit flex flex-row items-center justify-start gap-4 mb-4">
+                      <div className="w-full flex flex-row items-center justify-center gap-6 mb-4">
                         <Image
                           src={"/box.png"}
                           alt="box"
-                          width={100}
-                          height={100}
+                          width={70}
+                          height={70}
                         ></Image>
                         <div className="flex flex-col items-start justify-start">
-                          <p className="card-title text-ellipsis overflow-hidden line-clamp-2">
+                          <p className="card-title text-lg text-ellipsis overflow-hidden line-clamp-2">
                             {item.name}
                           </p>
                           <p className="line-clamp-2">
@@ -102,7 +102,7 @@ export default function ListCard() {
                           </p>
                         </div>
                       </div>
-                      <div className="flex flex-row justify-center gap-4 items-center">
+                      <div className="card-actions flex flex-row justify-center gap-4 items-center">
                         <button className="btn btn-info btn-sm text-white">
                           <span className="md:inline hidden">Edit</span>
                         </button>
