@@ -5,11 +5,14 @@ export const addFormSchema = z.object({
     .string()
     .min(1, { message: "name cannot be empty" })
     .max(255, { message: "name must be at least 255 characters" }),
-  number: z
-    .number()
-    .optional(),
-  color: z
-    .string()
-    .min(1, { message: "color cannot be empty" })
-    .optional(),
+  number: z.union([
+    z.string(),
+    z
+      .number()
+      .refine((val) => !Number.isNaN(val), { message: "NaN is not allowed" }),
+    z.literal(null),
+    z.literal(NaN),
+    z.undefined(),
+  ]),
+  color: z.string().min(1, { message: "color cannot be empty" }).optional(),
 });
