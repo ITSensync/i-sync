@@ -11,10 +11,12 @@ import Loading from "./Loader/Loading";
 import EmptyPage from "./EmptyPage";
 import ErrorToast from "./ErrorToast";
 import Image from "next/image";
+import DeleteModal from "./DeleteModal";
 
 export default function ListCard() {
   const [isFormShow, setIsFormShow] = useState(false);
   const [editedBox, setEditedBox] = useState<any>();
+  const [deletedBox, setDeletedBox] = useState<any>();
   const [boxesData, setBoxesData] = useState<Box[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
@@ -39,7 +41,7 @@ export default function ListCard() {
       setBoxesData(boxResult);
     } else {
       setErrorData({
-        code: response.code,
+        code: response.statusCode,
         message: response.message,
       });
       setIsToastOpen(true);
@@ -47,11 +49,17 @@ export default function ListCard() {
     setIsLoading(false);
   };
 
+  
   const handleEditBtn = (editedBox: Box) => {
     setEditedBox(editedBox);
     setIsFormShow(true);
   };
 
+  const handleDeleteBtn = (deletedBox: Box) => {
+    setDeletedBox(deletedBox);
+    (document.getElementById("delete_modal")! as HTMLDialogElement).showModal();
+  };
+  
   const handleCloseForm = () => {
     setEditedBox(null);
     setIsFormShow(false);
@@ -61,6 +69,12 @@ export default function ListCard() {
     setIsToastOpen(false);
   };
 
+  const removeDataFromState = (id: string) => {
+    setBoxesData((prevData) =>
+      prevData.filter((item) => item.id !== id)
+    );
+  };
+
   return (
     <div className="w-full">
       <ErrorToast
@@ -68,6 +82,7 @@ export default function ListCard() {
         error={errorData}
         onClose={handleCloseToast}
       />
+      <DeleteModal boxData={deletedBox} onDelete={removeDataFromState}/>
       {isFormShow ? (
         <FormBox
           getIsFormShowingState={handleBtnAddState}
@@ -129,7 +144,10 @@ export default function ListCard() {
                       >
                         <span className="md:inline hidden">Edit</span>
                       </button>
-                      <button className="btn btn-error btn-sm text-white">
+                      <button
+                        className="btn btn-error btn-sm text-white"
+                        onClick={() => handleDeleteBtn(item)}
+                      >
                         <span className="md:inline hidden">Hapus</span>
                       </button>
                     </div>
