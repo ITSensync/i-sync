@@ -106,7 +106,7 @@ export default function ListCard() {
             </div>
           ) : boxesData.length == 0 && !isLoading ? (
             <div className="flex justify-center items-center p-8">
-              <EmptyPage item="Book" image="/no-results.png" size={300} />
+              <EmptyPage item="Box" image="/no-results.png" size={300} />
             </div>
           ) : (
             <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 gap-y-7 mt-10 px-4">
