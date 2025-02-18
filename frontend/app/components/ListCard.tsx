@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
-import FormBook from "./FormBox";
+import FormBox from "./FormBox";
 import { boxService } from "../data/services";
 import { Box } from "../types/Box";
 import { ApiError } from "../types/ApiError";
@@ -13,6 +14,7 @@ import Image from "next/image";
 
 export default function ListCard() {
   const [isFormShow, setIsFormShow] = useState(false);
+  const [editedBox, setEditedBox] = useState<any>();
   const [boxesData, setBoxesData] = useState<Box[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
@@ -45,6 +47,16 @@ export default function ListCard() {
     setIsLoading(false);
   };
 
+  const handleEditBtn = (editedBox: Box) => {
+    setEditedBox(editedBox);
+    setIsFormShow(true);
+  };
+
+  const handleCloseForm = () => {
+    setEditedBox(null);
+    setIsFormShow(false);
+  };
+
   const handleCloseToast = () => {
     setIsToastOpen(false);
   };
@@ -57,7 +69,11 @@ export default function ListCard() {
         onClose={handleCloseToast}
       />
       {isFormShow ? (
-        <FormBook getIsFormShowingState={handleBtnAddState} />
+        <FormBox
+          getIsFormShowingState={handleBtnAddState}
+          boxData={editedBox}
+          onCloseForm={handleCloseForm}
+        />
       ) : (
         <>
           <div className="flex justify-end px-4">
@@ -80,9 +96,12 @@ export default function ListCard() {
           ) : (
             <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 gap-y-7 mt-10 px-4">
               {boxesData.map((item, index) => (
-                <Link key={index} href={`/list-stuff/${item.id}`}>
-                  <div className="card border-zinc-400 border rounded-lg shadow-2xl min-h-full w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
-                    <div className="card-body">
+                <div
+                  key={index}
+                  className="card border-zinc-400 border rounded-lg shadow-2xl min-h-full w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105"
+                >
+                  <div className="card-body">
+                    <Link href={`/list-stuff/${item.id}`}>
                       <div className="w-full flex flex-row items-center justify-center gap-6 mb-4">
                         <Image
                           src={"/box.png"}
@@ -102,17 +121,20 @@ export default function ListCard() {
                           </p>
                         </div>
                       </div>
-                      <div className="card-actions flex flex-row justify-center gap-4 items-center">
-                        <button className="btn btn-info btn-sm text-white">
-                          <span className="md:inline hidden">Edit</span>
-                        </button>
-                        <button className="btn btn-error btn-sm text-white">
-                          <span className="md:inline hidden">Hapus</span>
-                        </button>
-                      </div>
+                    </Link>
+                    <div className="card-actions flex flex-row justify-center gap-4 items-center">
+                      <button
+                        className="btn btn-info btn-sm text-white"
+                        onClick={() => handleEditBtn(item)}
+                      >
+                        <span className="md:inline hidden">Edit</span>
+                      </button>
+                      <button className="btn btn-error btn-sm text-white">
+                        <span className="md:inline hidden">Hapus</span>
+                      </button>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           )}
