@@ -1,13 +1,13 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Book } from "../types/Box";
+import { Box } from "../types/Box";
 import { ApiError } from "../types/ApiError";
-import { booksService } from "../data/services";
+import { boxService } from "../data/services";
 import ErrorToast from "./ErrorToast";
 import SuccessModal from "./SuccessModal";
 import ModalLoadingLite from "./Loader/ModalLoading";
 
-export default function DeleteModal({ bookData }: { bookData: Book }) {
+export default function DeleteModal({ boxData }: { boxData: Box }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -32,7 +32,7 @@ export default function DeleteModal({ bookData }: { bookData: Book }) {
     (document.getElementById("delete_modal") as HTMLDialogElement).close();
     setIsLoading(true);
 
-    const response = await booksService.deleteBooks(bookData.id);
+    const response = await boxService.deleteBox(boxData.id);
     if (response.statusCode !== 200) {
       setErrorData({
         message: response.message,
@@ -61,11 +61,11 @@ export default function DeleteModal({ bookData }: { bookData: Book }) {
       <dialog id="delete_modal" className="modal">
         <div className="modal-box w-fit p-10 bg-white">
           <h1 className="mb-4 text-center text-3xl font-bold text-black-2">
-            Delete Books
+            Delete Box
           </h1>
           <p className="mb-4 text-center">
             Are you sure to delete{" "}
-            <span className="font-bold">{bookData.title}</span>?
+            <span className="font-bold">{boxData.name}</span>?
           </p>
           <div className="card-actions justify-center">
             <form method="dialog">
