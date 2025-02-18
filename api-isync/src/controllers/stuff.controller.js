@@ -22,7 +22,7 @@ async function createStuff(req, res, next) {
   try {
     const stuffResult = await stuffService.create(req.body)
     res.status(stuffResult.statusCode).send(stuffResult)
-  } catch {
+  } catch (error) {
     next(error)
   }
 }
