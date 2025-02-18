@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { Box } from "../types/Box";
 import { ApiError } from "../types/ApiError";
-import { boxService } from "../data/services";
+import { boxService, stuffService } from "../data/services";
 import ErrorToast from "./ErrorToast";
 import ModalLoadingLite from "./Loader/ModalLoading";
+import { Stuff } from "../types/Stuff";
 
 export default function DeleteModal({
   boxData,
+  stuffData,
   onDelete,
 }: {
-  boxData: Box;
+  boxData?: Box;
+  stuffData?: Stuff;
   onDelete: (id: string) => void;
 }) {
   // const router = useRouter();
@@ -25,7 +28,11 @@ export default function DeleteModal({
     (document.getElementById("delete_modal") as HTMLDialogElement).close();
     setIsLoading(true);
 
-    const response = await boxService.deleteBox(boxData.id);
+    const response = stuffData
+      ? await stuffService.deleteStuff(stuffData.id)
+      : boxData
+      ? await boxService.deleteBox(boxData.id)
+      : "";
     if (response.statusCode !== 200) {
       setToastData({
         message: response.message,
@@ -38,7 +45,7 @@ export default function DeleteModal({
         code: response.statusCode,
       });
       setIsSuccess(true);
-      onDelete(boxData.id);
+      onDelete(stuffData ? stuffData.id : boxData ? boxData.id : "");
       setIsToastOpen(true);
     }
     setIsLoading(false);
@@ -60,11 +67,14 @@ export default function DeleteModal({
       <dialog id="delete_modal" className="modal">
         <div className="modal-box w-fit p-10 bg-white">
           <h1 className="mb-4 text-center text-3xl font-bold text-black-2">
-            Delete Box
+            {stuffData ? 'Delete Stuff' : 'Delete Box'}
           </h1>
           <p className="mb-4 text-center">
             Are you sure to delete{" "}
-            <span className="font-bold">{boxData?.name}</span>?
+            <span className="font-bold">
+              {boxData?.name || stuffData?.name}
+            </span>
+            ?
           </p>
           <div className="card-actions justify-center">
             <form method="dialog">
