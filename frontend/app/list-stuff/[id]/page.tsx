@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import BasePage from "@/app/components/BasePage";
 import Link from "next/link";
@@ -5,17 +6,18 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
-import FormBook from "@/app/components/FormBox";
 import DeleteModal from "@/app/components/DeleteModal";
 import { boxService } from "@/app/data/services";
 import { BoxDetail } from "@/app/types/Box";
 import { ApiError } from "@/app/types/ApiError";
 import ErrorToast from "@/app/components/ErrorToast";
+import FormStuff from "@/app/components/FormStuff";
 
 export default function DetailsPage() {
   const { id } = useParams();
   const [isFormShow, setIsFormShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [editedStuff, setEditedStuff] = useState<any>(null);
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [errorData, setErrorData] = useState<ApiError>({
     code: 0,
@@ -50,12 +52,21 @@ export default function DetailsPage() {
     }
   };
 
+  const handleBtnAddState = (state: boolean) => {
+    setIsFormShow(state);
+  };
+
   const handleBtnEditState = (state: boolean) => {
     setIsFormShow(state);
   };
 
   const handleCloseToast = () => {
     setIsToastOpen(false);
+  };
+
+  const handleCloseForm = () => {
+    setEditedStuff(null);
+    setIsFormShow(false);
   };
 
   const handleBtnDelete = () => {
@@ -73,9 +84,10 @@ export default function DetailsPage() {
       />
       {isFormShow ? (
         <div className="w-full">
-          <FormBook
+          <FormStuff
             getIsFormShowingState={handleBtnEditState}
-            boxData={boxData}
+            stuffData={editedStuff}
+            onCloseForm={handleCloseForm}
           />
         </div>
       ) : (
@@ -96,41 +108,12 @@ export default function DetailsPage() {
           <div className="flex justify-end my-4">
             <button
               className="btn btn-success btn-md text-white"
+              onClick={() => handleBtnAddState(true)}
             >
               <AddIcon style={{ fontSize: 35 }} />
               <p className="font-poppins text-lg">Add</p>
             </button>
           </div>
-          {/* <div className="p-6 mt-4 w-full flex flex-col gap-3 outline rounded-xl outline-2 outline-gray-300">
-            <p className="font-bold text-2xl">Book Data</p>
-            <div className="text-xl flex flex-row items-start gap-2">
-              <li className="w-1/3 md:h-1/4">Title</li>
-              <p className="w-fit md:text-start text-end">:</p>
-              {isLoading ? (
-                <div className="skeleton h-5 w-1/2 bg-zinc-300"></div>
-              ) : (
-                <span className="md:w-full w-2/3">{boxData.name}</span>
-              )}
-            </div>
-            <div className="text-xl flex flex-row items-center gap-2">
-              <li className="w-1/3 md:h-1/4">Author</li>
-              <p className="w-fit md:text-start text-end">:</p>
-              {isLoading ? (
-                <div className="skeleton h-5 w-1/2 bg-zinc-300"></div>
-              ) : (
-                <span className="md:w-full w-2/3">{boxData.color}</span>
-              )}
-            </div>
-            <div className="text-xl flex flex-row items-center gap-2">
-              <li className="w-1/3 md:h-1/4">Year</li>
-              <p className="w-fit md:text-start text-end">:</p>
-              {isLoading ? (
-                <div className="skeleton h-5 w-1/2 bg-zinc-300"></div>
-              ) : (
-                <span className="md:w-full w-2/3">{boxData.number}</span>
-              )}
-            </div>
-          </div> */}
           <div className="overflow-x-auto">
             <table className="table">
               {/* head */}
