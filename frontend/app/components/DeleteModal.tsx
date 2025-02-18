@@ -1,46 +1,45 @@
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box } from "../types/Box";
 import { ApiError } from "../types/ApiError";
 import { boxService } from "../data/services";
 import ErrorToast from "./ErrorToast";
-import SuccessModal from "./SuccessModal";
 import ModalLoadingLite from "./Loader/ModalLoading";
 
-export default function DeleteModal({ boxData }: { boxData: Box }) {
+export default function DeleteModal({
+  boxData,
+  onDelete,
+}: {
+  boxData: Box;
+  onDelete: (id: string) => void;
+}) {
+  // const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [errorData, setErrorData] = useState<ApiError>({
+  const [toastData, setToastData] = useState<ApiError>({
     code: 0,
     message: "",
   });
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  useEffect(() => {
-    if (isSuccess) {
-      (
-        document.getElementById("success_modal") as HTMLDialogElement
-      ).showModal();
-      setTimeout(() => {
-        router.back();
-      }, 2000);
-    }
-  });
-
-  const router = useRouter();
   const handleDelete = async () => {
     (document.getElementById("delete_modal") as HTMLDialogElement).close();
     setIsLoading(true);
 
     const response = await boxService.deleteBox(boxData.id);
     if (response.statusCode !== 200) {
-      setErrorData({
+      setToastData({
         message: response.message,
-        code: response.code,
+        code: response.statusCode,
       });
       setIsToastOpen(true);
     } else {
-      setIsSuccess(true)
+      setToastData({
+        message: response.message,
+        code: response.statusCode,
+      });
+      setIsSuccess(true);
+      onDelete(boxData.id);
+      setIsToastOpen(true);
     }
     setIsLoading(false);
   };
@@ -52,11 +51,11 @@ export default function DeleteModal({ boxData }: { boxData: Box }) {
   return (
     <div>
       <ErrorToast
-        error={errorData}
+        error={toastData}
         isOpen={isToastOpen}
         onClose={handleCloseToast}
+        style={isSuccess ? "alert-success" : "alert-error"}
       />
-      <SuccessModal message={"Delete Books Success"} />
       <ModalLoadingLite isOpen={isLoading} />
       <dialog id="delete_modal" className="modal">
         <div className="modal-box w-fit p-10 bg-white">
@@ -65,7 +64,7 @@ export default function DeleteModal({ boxData }: { boxData: Box }) {
           </h1>
           <p className="mb-4 text-center">
             Are you sure to delete{" "}
-            <span className="font-bold">{boxData.name}</span>?
+            <span className="font-bold">{boxData?.name}</span>?
           </p>
           <div className="card-actions justify-center">
             <form method="dialog">
