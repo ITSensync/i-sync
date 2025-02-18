@@ -11,11 +11,13 @@ import { Box } from "../types/Box";
 interface FormBoxProps {
   boxData?: Box;
   getIsFormShowingState: (state: boolean) => void;
+  onCloseForm: () => void;
 }
 
 export default function FormBox({
   boxData,
   getIsFormShowingState,
+  onCloseForm,
 }: FormBoxProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
@@ -45,7 +47,9 @@ export default function FormBox({
         number: boxData.number,
       });
     }
+  }, [boxData]);
 
+  useEffect(() => {
     if (!formAddState.isLoading || !formEditState.isLoading) {
       setIsLoading(false);
     }
@@ -67,7 +71,7 @@ export default function FormBox({
         window.location.reload();
       }, 2000);
     }
-  }, [formAddState, formEditState, boxData]);
+  }, [formAddState, formEditState]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -92,6 +96,7 @@ export default function FormBox({
 
     if (confirmBack) {
       getIsFormShowingState(isShow);
+      onCloseForm();
     }
   };
 
@@ -144,8 +149,7 @@ export default function FormBox({
           <div className="label">
             <ZodErrors
               error={
-                formAddState?.zodErrors?.name ||
-                formEditState?.zodErrors?.name
+                formAddState?.zodErrors?.name || formEditState?.zodErrors?.name
               }
             />
           </div>
@@ -158,7 +162,7 @@ export default function FormBox({
             type="text"
             id="color"
             name="color"
-            value={formBoxState.color}
+            value={formBoxState.color ? formBoxState.color : ""}
             onChange={handleInputChange}
             placeholder="Type here..."
             className="input bg-white input-bordered w-full max-w-full text-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -181,7 +185,7 @@ export default function FormBox({
             id="number"
             name="number"
             type="number"
-            value={formBoxState.number}
+            value={formBoxState.number ? formBoxState.number : ""}
             onChange={handleInputChange}
             placeholder="101"
             className="input bg-white input-bordered w-full max-w-full text-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -189,7 +193,8 @@ export default function FormBox({
           <div className="label">
             <ZodErrors
               error={
-                formAddState?.zodErrors?.number || formEditState?.zodErrors?.number
+                formAddState?.zodErrors?.number ||
+                formEditState?.zodErrors?.number
               }
             />
           </div>
