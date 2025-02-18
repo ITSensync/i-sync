@@ -55,7 +55,7 @@ async function create(body) {
 }
 
 async function update(boxId, updateBody) {
-  const updatedBox = await Box.findByPk(boId);
+  const updatedBox = await Box.findByPk(boxId);
 
   if (!updatedBox) {
     throw new Response.ApiError(httpStatus.NOT_FOUND, 'BOX NOT FOUND')
