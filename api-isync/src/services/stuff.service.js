@@ -20,16 +20,16 @@ async function getAll() {
 async function getById(stuffId) {
   const stuffData = await Stuff.findByPk(stuffId)
   if (!stuffData) {
-    throw new Response.ApiError(httpStatus.NOT_FOUND, 'Stuff NOT FOUND')
+    throw new Response.ApiError(httpStatus.NOT_FOUND, 'STUFF NOT FOUND')
   }
 
-  return new Response.ApiSuccess(httpStatus.OK, 'GET Stuff SUCESS', stuffData)
+  return new Response.ApiSuccess(httpStatus.OK, 'GET STUFF SUCESS', stuffData)
 }
 
 async function create(body) {
   try {
     const createdStuff = await Stuff.create(body)
-    return new Response.ApiSuccess(httpStatus.CREATED, 'CREATE Stuff SUCCESS', createdStuff)
+    return new Response.ApiSuccess(httpStatus.CREATED, 'CREATE STUFF SUCCESS', createdStuff)
   } catch (error) {
     throw new Response.ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
   }
@@ -45,18 +45,18 @@ async function update(bookId, updateBody) {
   Object.assign(updatedStuff, updateBody)
   await updatedStuff.save();
 
-  return new Response.ApiSuccess(httpStatus.CREATED, 'UPDATE Stuff SUCCESS', updatedStuff)
+  return new Response.ApiSuccess(httpStatus.CREATED, 'UPDATE STUFF SUCCESS', updatedStuff)
 }
 
 async function remove(stuffId) {
   const deletedStuff = await Stuff.findByPk(stuffId);
 
   if (!deletedStuff) {
-    throw new Response.ApiError(httpStatus.NOT_FOUND, 'Stuff NOT FOUND')
+    throw new Response.ApiError(httpStatus.NOT_FOUND, 'STUFF NOT FOUND')
   }
 
   await deletedBook.destroy()
-  return new Response.ApiSuccess(httpStatus.OK, 'DELETE Stuff SUCCESS')
+  return new Response.ApiSuccess(httpStatus.OK, 'DELETE STUFF SUCCESS')
 }
 
 export default {
