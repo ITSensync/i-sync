@@ -55,7 +55,7 @@ async function remove(stuffId) {
     throw new Response.ApiError(httpStatus.NOT_FOUND, 'STUFF NOT FOUND')
   }
 
-  await deletedBook.destroy()
+  await deletedStuff.destroy()
   return new Response.ApiSuccess(httpStatus.OK, 'DELETE STUFF SUCCESS')
 }
 
