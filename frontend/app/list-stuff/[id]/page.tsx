@@ -126,8 +126,8 @@ export default function DetailsPage() {
                     className="btn btn-success btn-sm sm:btn-md text-white"
                     onClick={() => handleBtnAddState(true)}
                   >
-                    <AddIcon className="sm:inline hidden" style={{ fontSize: 35 }} />
-                    <p className="sm:hidden inline">+</p>
+                    <AddIcon className="sm:inline !hidden" style={{ fontSize: 35 }} />
+                    <p className="sm:hidden !inline">+</p>
                     <p className="font-poppins text-sm sm:text-lg">Add</p>
                   </button>
                 </div>

@@ -93,8 +93,8 @@ export default function ListCard() {
               onClick={() => handleBtnAddState(true)}
               className="btn btn-success btn-sm sm:btn-md text-white"
             >
-              <AddIcon className="md:inline hidden" style={{ fontSize: 35 }} />
-              <p className="md:hidden inline">+</p>
+              <AddIcon className="md:inline !hidden" style={{ fontSize: 35 }} />
+              <p className="md:hidden !inline">+</p>
               <p className="font-poppins text-sm sm:text-lg">Add</p>
             </button>
           </div>
