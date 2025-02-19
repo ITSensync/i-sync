@@ -13,4 +13,4 @@ npm install
 npm run dev
 ```
 
-## Production (Running in Port: 6000)
+## Production (Running in Port: 5001)
