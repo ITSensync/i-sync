@@ -88,7 +88,7 @@ export default function ListCard() {
         />
       ) : (
         <>
-          <div className="flex justify-end px-4">
+          <div className="flex justify-end px-4 lg:w-4/5 md:w-full w-full">
             <button
               onClick={() => handleBtnAddState(true)}
               className="btn btn-success btn-sm sm:btn-md text-white"
