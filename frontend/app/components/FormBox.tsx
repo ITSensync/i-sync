@@ -105,7 +105,7 @@ export default function FormBox({
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="sm:w-[60vw] lg:w-[45vw] w-[95vw] flex justify-center">
       <SuccessModal message={formAddState?.message || formEditState?.message} />
       <ErrorToast
         error={errorData}
@@ -115,7 +115,7 @@ export default function FormBox({
       <form
         action={boxData ? formEditAction : formAddAction}
         onSubmit={() => setIsLoading(true)}
-        className="outline-1 outline outline-zinc-400 h-full w-2/3 py-4 px-7 rounded-md"
+        className="outline-1 outline outline-zinc-400 h-full w-full py-4 px-7 rounded-md"
       >
         <h1 className="text-center font-poppins font-semibold text-xl my-4">
           {boxData ? "Form Edit Box" : "Form Add Box"}

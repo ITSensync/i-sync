@@ -7,8 +7,8 @@ export default function BasePage({
 }>) {
   return (
     <div className="min-h-screen flex justify-center">
-      <div className="flex flex-col w-2/3 items-center py-6">
-        <div className="text-4xl text-center font-lexend_deca font-extrabold mt-4 flex flex-row justify-center items-center gap-3">
+      <div className="flex flex-col w-fit items-center py-6">
+        <div className="lg:text-4xl md:text-2xl text-center font-lexend_deca font-extrabold mt-4 flex flex-row justify-center items-center gap-3">
           <Image
             src={"/sensync-logo.png"}
             height={40}
