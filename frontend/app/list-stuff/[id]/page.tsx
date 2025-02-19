@@ -108,12 +108,13 @@ export default function DetailsPage() {
               <div className="lg:w-4/5 md:w-full w-full">
                 <div className="flex flex-row items-center justify-between pl-4 sm:px-0 px-4">
                   <button>
-                    <Link href={"/"} className="text-blue-400">
+                    <Link href={"/"} className="flex md:flex-row flex-col items-center text-blue-400">
                       <HomeIcon style={{ fontSize: 30 }} />
+                      <p className="md:text-lg md:ml-1 text-sm font-bold">Home</p>
                     </Link>
                   </button>
                   <div>
-                    <p className="text-lg">
+                    <p className="md:text-xl text-md">
                       <span className="font-bold">{boxData.name}</span> /{" "}
                       <span>{boxData.number}</span> /{" "}
                       <span>{boxData.color}</span>
