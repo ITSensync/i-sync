@@ -5,7 +5,7 @@ import { stuffService } from "../services";
 export async function addStuffAction(prevState: any, formData: FormData) {
   const validatedFields = stuffFormSchema.safeParse({
     name: formData.get("name"),
-    quantity: Number(formData.get("number")),
+    quantity: Number(formData.get("quantity")),
     merk: formData.get("merk"),
     detail: formData.get("detail"),
   });
