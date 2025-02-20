@@ -173,9 +173,9 @@ export default function FormStuff({
           </div>
           <input
             min={0}
-            id="number"
+            id="quantity"
             name="quantity"
-            type="quantity"
+            type="number"
             value={formStuffState.quantity ? formStuffState.quantity : ""}
             onChange={handleInputChange}
             placeholder="10"
