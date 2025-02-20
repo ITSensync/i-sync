@@ -73,7 +73,7 @@ export default function ListCard() {
   };
 
   return (
-    <div className="w-[100vw] sm:w-full">
+    <div className="w-[100vw] sm:w-full mb-8">
       <ErrorToast
         isOpen={isToastOpen}
         error={errorData}
