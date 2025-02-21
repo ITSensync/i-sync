@@ -109,7 +109,7 @@ export default function FormStuff({
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mb-6">
       <SuccessModal message={formAddState?.message || formEditState?.message} />
       <ErrorToast
         error={errorData}
@@ -122,7 +122,7 @@ export default function FormStuff({
         className="outline-1 outline outline-zinc-400 h-full sm:w-[60vw] lg:w-[45vw] w-[95vw] py-4 px-7 rounded-md"
       >
         <h1 className="text-center font-poppins font-semibold text-xl my-4">
-          {stuffData ? "Form Edit Stuff" : "Form Add Stuff"}
+          {stuffData ? "Form Edit Barang" : "Form Tambah Barang"}
         </h1>
         {stuffData && (
           <input
@@ -233,7 +233,7 @@ export default function FormStuff({
             />
           </div>
         </label>
-        <div className="flex flex-row gap-2 justify-between mt-5">
+        <div className="flex flex-row gap-2 justify-end mt-5">
           <button
             onClick={(event) => handleBackButton(event, false)}
             className="btn btn-outline btn-warning text-white"

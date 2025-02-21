@@ -118,7 +118,7 @@ export default function FormBox({
         className="outline-1 outline outline-zinc-400 sm:w-[60vw] lg:w-[45vw] w-[95vw] h-full py-4 px-7 rounded-md"
       >
         <h1 className="text-center font-poppins font-semibold text-xl my-4">
-          {boxData ? "Form Edit Box" : "Form Add Box"}
+          {boxData ? "Form Edit Box" : "Form Tambah Box"}
         </h1>
         {boxData && (
           <input
@@ -199,7 +199,7 @@ export default function FormBox({
             />
           </div>
         </label>
-        <div className="flex flex-row gap-2 justify-between mt-5">
+        <div className="flex flex-row gap-2 justify-end mt-5">
           <button
             onClick={(event) => handleBackButton(event, false)}
             className="btn btn-outline btn-warning text-white"
