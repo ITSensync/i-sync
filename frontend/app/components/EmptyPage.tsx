@@ -14,7 +14,7 @@ export default function EmptyPage({
     <div className="flex flex-col justify-center items-center gap-4">
       <Image src={image} alt="404" width={size} height={size} unoptimized priority/>
       <p className="text-center font-poppins text-2xl font-semibold">
-        {item} Not Found!
+        {item} Tidak Ditemukan!
       </p>
     </div>
   );
