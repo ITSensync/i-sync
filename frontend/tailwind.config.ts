@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import daisyui  from 'daisyui';
+import daisyui from "daisyui";
 
 export default {
   enabled: true,
@@ -9,6 +9,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: ["hidden", "md:inline", "md:hidden"],
   theme: {
     extend: {
       colors: {
@@ -18,11 +19,9 @@ export default {
       fontFamily: {
         lexend_deca: ["var(--font-lexend-deca)"],
         roboto: ["var(--font-roboto)"],
-        poppins: ["var(--font-poppins)"]
-      }
+        poppins: ["var(--font-poppins)"],
+      },
     },
   },
-  plugins: [
-    daisyui,
-  ],
+  plugins: [daisyui],
 } satisfies Config;
