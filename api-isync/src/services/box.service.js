@@ -4,12 +4,24 @@ import { Box } from '../models/box.js';
 import Response from '../utils/Response.js';
 import { Stuff } from '../models/stuff.js';
 
-async function getAll() {
+async function getAll(query) {
+  const { populate } = query;
+
+  let includeOptions = [];
+
+  if (populate) {
+    includeOptions.push({
+      model: Stuff,
+      as: 'stuff',
+    })
+  }
+
   const boxData = await Box.findAll({
     attributes: ['id', 'name', 'number', 'color'],
     order: [
-      ['createdAt', 'asc']
-    ]
+      ['createdAt', 'desc'],
+    ],
+    include: includeOptions,
   });
 
   if (!boxData) {
@@ -36,7 +48,10 @@ async function getByIdWithPopulate(boxId) {
     include: {
       model: Stuff,
       as: 'stuff',
-    }
+    },
+    order: [
+      ['stuff', 'createdAt', 'desc']
+    ]
   })
   if (!boxData) {
     throw new Response.ApiError(httpStatus.NOT_FOUND, 'BOX NOT FOUND')

@@ -2,7 +2,7 @@ import boxService from '../services/box.service.js';
 
 async function getAllBox(req, res, next) {
   try {
-    const boxResult = await boxService.getAll();
+    const boxResult = await boxService.getAll(req.query);
     res.status(boxResult.statusCode).send(boxResult);
   } catch (error) {
     next(error)
