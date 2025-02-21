@@ -16,8 +16,9 @@ export default function BasePage({
             height={40}
             width={40}
             alt="Logo Sensync"
+            className="w-7 sm:w-12"
           />
-          <p>Sensync Inventory System</p>
+          <p>Sensync Inventory</p>
         </div>
         <div className="w-full mt-6 md:mt-10 flex justify-center">{children}</div>
       </div>
