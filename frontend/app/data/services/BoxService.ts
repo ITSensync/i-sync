@@ -12,7 +12,7 @@ export class BoxService {
 
   getListBox = () => {
     return this.instance
-      .get(`/`)
+      .get(`?populate=true`)
       .then((res) => {
         return res.data;
       })
