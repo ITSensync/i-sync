@@ -25,6 +25,10 @@ export const Stuff = db.define('Stuff', {
     allowNull: true,
     type: DataTypes.STRING,
   },
+  img_url: {
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
   boxId: { // Foreign Key for Boxes
     type: DataTypes.STRING(36),
     allowNull: false,

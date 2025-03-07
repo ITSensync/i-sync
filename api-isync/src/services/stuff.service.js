@@ -35,8 +35,8 @@ async function create(body) {
   }
 }
 
-async function update(bookId, updateBody) {
-  const updatedStuff = await Stuff.findByPk(bookId);
+async function update(stuffId, updateBody) {
+  const updatedStuff = await Stuff.findByPk(stuffId);
 
   if (!updatedStuff) {
     throw new Response.ApiError(httpStatus.NOT_FOUND, 'Stuff NOT FOUND')
