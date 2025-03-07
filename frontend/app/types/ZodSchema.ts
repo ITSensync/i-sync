@@ -25,4 +25,5 @@ export const stuffFormSchema = z.object({
   quantity: z.number(),
   merk: z.string().optional(),
   detail: z.string().optional(),
+  img_url: z.string().optional(),
 });

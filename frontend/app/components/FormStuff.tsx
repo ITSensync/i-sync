@@ -8,6 +8,8 @@ import ModalLoadingLite from "./Loader/ModalLoading";
 import { Stuff } from "../types/Stuff";
 import { addStuffAction, editStuffAction } from "../data/actions/formStuff";
 import { useParams } from "next/navigation";
+import ModalCamera from "./ModalCamera";
+import Image from "next/image";
 
 interface FormStuffProps {
   stuffData?: Stuff;
@@ -39,16 +41,20 @@ export default function FormStuff({
     quantity: stuffData?.quantity || 0,
     merk: stuffData?.merk || "",
     detail: stuffData?.detail || "",
+    img_url: stuffData?.img_url || "",
   });
+  const [uploadedUrl, setUploadedUrl] = useState("");
 
   useEffect(() => {
     if (stuffData) {
+      setUploadedUrl(stuffData.img_url);
       setFormStuffState({
         id: stuffData.id,
         name: stuffData.name,
         merk: stuffData.merk,
         quantity: stuffData.quantity,
         detail: stuffData.detail,
+        img_url: stuffData.img_url,
       });
     }
   }, [stuffData]);
@@ -102,6 +108,14 @@ export default function FormStuff({
       getIsFormShowingState(isShow);
       onCloseForm();
     }
+  };
+
+  const getUploadedUrl = (url: string) => {
+    setUploadedUrl(url);
+  };
+
+  const handleCameraBtn = () => {
+    (document.getElementById("camera_modal")! as HTMLDialogElement).showModal();
   };
 
   const handleCloseToast = () => {
@@ -233,6 +247,67 @@ export default function FormStuff({
             />
           </div>
         </label>
+        <label className="form-control w-full max-w-full">
+          <div className="label">
+            <span className="label-text text-zinc-900">Image</span>
+          </div>
+          <div className="join">
+            <div className="w-full">
+              <div className="w-full">
+                <input
+                  type="text"
+                  value={uploadedUrl || ""}
+                  name="img_url"
+                  className="input join-item w-full bg-white input-bordered"
+                  readOnly
+                  placeholder="Image URL"
+                />
+              </div>
+            </div>
+            <div className="indicator">
+              <button
+                type="button"
+                onClick={handleCameraBtn}
+                className="btn btn-info text-white join-item"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="size-6"
+                >
+                  <path d="M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M9.344 3.071a49.52 49.52 0 0 1 5.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 0 1-3 3h-15a3 3 0 0 1-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 0 0 1.11-.71l.822-1.315a2.942 2.942 0 0 1 2.332-1.39ZM6.75 12.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Zm12-1.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div className="label">
+            <ZodErrors
+              error={
+                formAddState?.zodErrors?.img_url ||
+                formEditState?.zodErrors?.img_url
+              }
+            />
+          </div>
+          {uploadedUrl && (
+            <div className="mt-2">
+              <p>Uploaded Image:</p>
+              <Image
+                src={uploadedUrl}
+                alt="Uploaded"
+                className="rounded-lg border w-2/3 h-1/2"
+                width={500}
+                height={500}
+              />
+            </div>
+          )}
+          {/* <CameraCapture getUploadedUrl={getUploadedUrl} /> */}
+        </label>
         <div className="flex flex-row gap-2 justify-end mt-5">
           <button
             onClick={(event) => handleBackButton(event, false)}
@@ -250,6 +325,7 @@ export default function FormStuff({
           </button>
         </div>
       </form>
+      <ModalCamera getUploadedUrl={getUploadedUrl} />
       <ModalLoadingLite isOpen={isLoading} />
     </div>
   );

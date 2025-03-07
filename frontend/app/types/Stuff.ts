@@ -4,4 +4,5 @@ export type Stuff = {
   quantity: number,
   merk: string,
   detail: string,
+  img_url: string,
 }

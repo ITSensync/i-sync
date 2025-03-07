@@ -8,6 +8,7 @@ export async function addStuffAction(prevState: any, formData: FormData) {
     quantity: Number(formData.get("quantity")),
     merk: formData.get("merk"),
     detail: formData.get("detail"),
+    img_url: formData.get("img_url"),
   });
 
   if (!validatedFields.success) {
@@ -25,6 +26,7 @@ export async function addStuffAction(prevState: any, formData: FormData) {
     quantity: validatedFields.data.quantity,
     merk: validatedFields.data.merk,
     detail: validatedFields.data.detail,
+    img_url: validatedFields.data.img_url,
     boxId: formData.get('boxId'),
   };
 
@@ -69,6 +71,7 @@ export async function editStuffAction(prevState: any, formData: FormData) {
     quantity: Number(formData.get("quantity")),
     merk: formData.get("merk"),
     detail: formData.get("detail"),
+    img_url: formData.get("img_url"),
   });
 
   if (!validatedFields.success) {
@@ -86,6 +89,7 @@ export async function editStuffAction(prevState: any, formData: FormData) {
     quantity: validatedFields.data.quantity,
     merk: validatedFields.data.merk,
     detail: validatedFields.data.detail,
+    img_url: validatedFields.data.img_url,
     boxId: formData.get('boxId'),
   };
 
