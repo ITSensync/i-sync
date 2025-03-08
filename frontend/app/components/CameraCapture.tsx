@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 
 export default function CameraCapture({
@@ -11,6 +11,20 @@ export default function CameraCapture({
   const webcamRef = useRef<Webcam>(null);
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+  const [deviceId, setDeviceId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then((mediaDevices) => {
+      const videoDevices = mediaDevices.filter(
+        (device) => device.kind === "videoinput"
+      );
+      setDevices(videoDevices);
+      if (videoDevices.length > 0) {
+        setDeviceId(videoDevices[0].deviceId); // Gunakan kamera pertama sebagai default
+      }
+    });
+  }, []);
 
   // Menangkap gambar dari kamera
   const capture = () => {
@@ -52,24 +66,51 @@ export default function CameraCapture({
     }
   };
 
+  const setImageNull = () => {
+    setImage(null);
+  };
+
   return (
     <div className="flex flex-col items-center">
-      <Webcam
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        className="rounded-lg border"
-      />
-      <button
-        type="button"
-        onClick={capture}
-        className="mt-2 px-4 py-2 btn btn-info text-white w-full"
-      >
-        Capture
-      </button>
+      {!image && (
+        <>
+          <Webcam
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={{
+              deviceId: deviceId,
+              width: 1920,
+              height: 1080,
+            }}
+            className="rounded-lg border"
+          />
+          <button
+            type="button"
+            onClick={capture}
+            className="mt-2 px-4 py-2 btn btn-info text-white w-full"
+          >
+            Capture
+          </button>
+
+          <div className="mt-2 w-full">
+            <select
+              className="px-4 py-2 w-full border rounded-md bg-white"
+              onChange={(e) => setDeviceId(e.target.value)}
+              value={deviceId}
+            >
+              {devices.map((device) => (
+                <option key={device.deviceId} value={device.deviceId}>
+                  {device.label || `Camera ${devices.indexOf(device) + 1}`}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
+      )}
 
       {image && (
         <>
-          <div className="divider divider-info"></div>
+          {/* <div className="divider divider-info"></div> */}
           <div className="mt-2 flex flex-col w-full bg-red-50 justify-center">
             <Image
               src={image}
@@ -84,6 +125,13 @@ export default function CameraCapture({
               disabled={uploading}
             >
               {uploading ? "Uploading..." : "Upload"}
+            </button>
+            <button
+              onClick={setImageNull}
+              className="mt-2 px-4 py-2 btn btn-error text-white"
+              // disabled={uploading}
+            >
+              Delete
             </button>
           </div>
         </>
