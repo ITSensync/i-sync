@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     API_URL:process.env.NEXT_PUBLIC_API_URL
   },
   images: {
+    dangerouslyAllowSVG: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -14,6 +15,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
       }
     ]
   }

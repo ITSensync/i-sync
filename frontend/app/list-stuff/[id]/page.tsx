@@ -13,6 +13,7 @@ import ErrorToast from "@/app/components/ErrorToast";
 import FormStuff from "@/app/components/FormStuff";
 import { Stuff } from "@/app/types/Stuff";
 import Loading from "@/app/components/Loader/Loading";
+import ImageViewerModal from "@/app/components/ImageViewerModal";
 
 export default function DetailsPage() {
   const { id } = useParams();
@@ -20,6 +21,7 @@ export default function DetailsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [editedStuff, setEditedStuff] = useState<any>(null);
   const [deletedStuff, setDeletedStuff] = useState<any>(null);
+  const [selectedImg, setSelectedImg] = useState<any>(null);
   const [filteredStuff, setFilteredStuff] = useState<Stuff[]>([]);
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [errorData, setErrorData] = useState<ApiError>({
@@ -39,6 +41,17 @@ export default function DetailsPage() {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const modal = document.getElementById(
+      "image_modal"
+    ) as HTMLDialogElement | null;
+    if (selectedImg && modal) {
+      modal.showModal();
+    } else {
+      modal?.close();
+    }
+  }, [selectedImg]);
 
   const loadData = async () => {
     setIsLoading(true);
@@ -86,7 +99,7 @@ export default function DetailsPage() {
       stuff: prevBox.stuff.filter((s) => s.id !== stuffId),
     }));
 
-    setFilteredStuff((prevStuff) => prevStuff.filter((s) => s.id !== stuffId))
+    setFilteredStuff((prevStuff) => prevStuff.filter((s) => s.id !== stuffId));
   };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,6 +112,10 @@ export default function DetailsPage() {
     setFilteredStuff(filteredData);
   };
 
+  const handleImageModalClose = () => {
+    setSelectedImg(null);
+  };
+
   return (
     <BasePage>
       <div className="sm:w-[75vw] w-[100vw]">
@@ -106,6 +123,10 @@ export default function DetailsPage() {
           isOpen={isToastOpen}
           error={errorData}
           onClose={handleCloseToast}
+        />
+        <ImageViewerModal
+          link={selectedImg}
+          handleModalClose={handleImageModalClose}
         />
         <DeleteModal stuffData={deletedStuff} onDelete={removeStuffFromBox} />
         {isFormShow ? (
@@ -193,6 +214,7 @@ export default function DetailsPage() {
                         <th>Quantity</th>
                         <th>Merk</th>
                         <th>Detail</th>
+                        <th>Foto</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -211,6 +233,27 @@ export default function DetailsPage() {
                               <td>{stuff.quantity || 0}</td>
                               <td>{stuff.merk || "-"}</td>
                               <td>{stuff.detail || "-"}</td>
+                              <td
+                                onClick={() => {
+                                  if (stuff.img_url) {
+                                    setSelectedImg(stuff.img_url);
+                                    (
+                                      document.getElementById(
+                                        "image_modal"
+                                      )! as HTMLDialogElement
+                                    ).showModal();
+                                  }
+                                }}
+                              >
+                                <div
+                                  className={`${
+                                    stuff.img_url &&
+                                    "underline text-blue-500 cursor-pointer"
+                                  }`}
+                                >
+                                  {stuff.img_url ? "Lihat" : "-"}
+                                </div>
+                              </td>
                               <td className="flex flex-row gap-4">
                                 {/* EDIT BUTTON */}
                                 <button

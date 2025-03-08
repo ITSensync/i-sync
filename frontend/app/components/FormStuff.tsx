@@ -295,15 +295,19 @@ export default function FormStuff({
             />
           </div>
           {uploadedUrl && (
-            <div className="mt-2">
-              <p>Uploaded Image:</p>
-              <Image
-                src={uploadedUrl}
-                alt="Uploaded"
-                className="rounded-lg border w-2/3 h-1/2"
-                width={500}
-                height={500}
-              />
+            <div>
+              <div className="label">
+                <span className="label-text text-zinc-900">Uploaded Image:</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <Image
+                  src={uploadedUrl}
+                  alt="Uploaded"
+                  className="rounded-lg border w-2/3 h-1/2"
+                  width={1000}
+                  height={1000}
+                />
+              </div>
             </div>
           )}
           {/* <CameraCapture getUploadedUrl={getUploadedUrl} /> */}

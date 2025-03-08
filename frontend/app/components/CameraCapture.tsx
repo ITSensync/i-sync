@@ -62,14 +62,14 @@ export default function CameraCapture({
       <button
         type="button"
         onClick={capture}
-        className="mt-2 px-4 py-2 btn btn-info text-white"
+        className="mt-2 px-4 py-2 btn btn-info text-white w-full"
       >
         Capture
       </button>
 
       {image && (
         <>
-          <div className="divider"></div>
+          <div className="divider divider-info"></div>
           <div className="mt-2 flex flex-col w-full bg-red-50 justify-center">
             <Image
               src={image}
