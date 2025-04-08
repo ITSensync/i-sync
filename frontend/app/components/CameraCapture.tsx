@@ -21,7 +21,7 @@ export default function CameraCapture({
       );
       setDevices(videoDevices);
       if (videoDevices.length > 0) {
-        setDeviceId(videoDevices[0].deviceId); // Gunakan kamera pertama sebagai default
+        setDeviceId(videoDevices[1].deviceId); // Gunakan kamera pertama sebagai default
       }
     });
   }, []);
